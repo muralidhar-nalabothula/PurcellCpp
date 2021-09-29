@@ -1,6 +1,6 @@
 # PurcellCpp
 
-PurcellCpp is a C++ code to compute both radiative and non radiative decays rates of dipoles place above an infinitely spread 2D materials or dielectric slabs or combination.  
+PurcellCpp is a C++ code to compute both radiative and non radiative decays rates of dipoles place above an infinitely spread 2D materials or dielectric slabs or combination of both stacked over each other. 
 
 
 
