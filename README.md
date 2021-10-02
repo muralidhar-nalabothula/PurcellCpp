@@ -30,6 +30,7 @@ g++ -std=c++11 -O3 -I/path/to/include/dirs -L/path/to/lib/ -lsymengine -lgmp -lf
 
 ## Authors and acknowledgment
 Please consider citing the following paper if you use the code
+
 Muralidhar Nalabothula, Pankaj K. Jha, Tony Low, and Anshuman Kumar Phys. Rev. B 102, 045416 (https://journals.aps.org/prb/abstract/10.1103/PhysRevB.102.045416)
 
 ## License
