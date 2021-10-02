@@ -24,6 +24,8 @@ The perfomance of the code heavly depends on how well Symengine is build.
 
 ## Installation
 ```
+cd dir
+unzip eigen-master.zip -d eigen
 g++ -std=c++11 -O3 -I/path/to/include/dirs -L/path/to/lib/ -lgmp -lflint -lmpfr -lmpc -lgomp -ltcmalloc purcell.cpp -o purcell.x
 ```
 
