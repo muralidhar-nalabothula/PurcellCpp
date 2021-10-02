@@ -1,4 +1,3 @@
-#pragma once
 //Std headers
 #include <iostream>
 #include <complex>
@@ -24,7 +23,6 @@
 #include <symengine/solve.h>
 #include <symengine/eval_double.h>
 #include <symengine/derivative.h>
-#include "purcell.h"
 
 // Defining Constants 
 const std::complex<double> I(0.0f,1.0f);
@@ -84,6 +82,8 @@ struct Interface : struct_elements { /* Structure to store sinlge inteface input
                                       ~Interface(){}
                                      
                                      };
+
+typedef std::vector<struct_elements> System; // input vector
 
 struct Dielectric_slab : struct_elements { /* Structure to store dielectric input data of the system*/
                                            Dielectric_slab(std::complex<double> nd_, double thickness_)
