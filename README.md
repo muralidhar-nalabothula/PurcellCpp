@@ -9,12 +9,12 @@ PurcellCpp is a C++ code to compute both radiative and non radiative decays rate
 1) A C++ 11 Compiler
 2) Flint                (Required for compiling Symengine)
 3) Symengine            (Compile with flint integer class for performance)
-5) Eigen 3              (Required for finding roots in the code)
+5) Eigen 3              (Required for finding roots in the code. Downloaded from https://gitlab.com/libeigen/eigen )
 6) GMP                  (Required for compiling Symengine)
 7) GSL                  (Required for compiling Symengine)
 8) MPFR                 (Required for compiling Symengine)
 9) MPC                  (Required for compiling Symengine)
-10) Quadpack++          (Already included)
+10) Quadpack++          (Already included. Downloaded from https://github.com/drjerry/quadpackpp )
 ## Optional Requirments
 
 1) OpenMP
