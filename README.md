@@ -11,7 +11,6 @@ PurcellCpp is a C++ code to compute both radiative and non radiative decays rate
 3) Symengine            (Compile with flint integer class for performance)
 5) Eigen 3              (Required for finding roots in the code. Already included. Downloaded from https://gitlab.com/libeigen/eigen )
 6) GMP                  (Required for compiling Symengine)
-7) GSL                  (Required for compiling Symengine)
 8) MPFR                 (Required for compiling Symengine)
 9) MPC                  (Required for compiling Symengine)
 10) Quadpack++          (Already included. Downloaded from https://github.com/drjerry/quadpackpp )
@@ -23,6 +22,26 @@ PurcellCpp is a C++ code to compute both radiative and non radiative decays rate
 The perfomance of the code heavly depends on how well Symengine is build.
 
 ## Installation
+
+For mac:
+
+```
+Using homebrew: brew install flint, gmp, mpfr, libmpc
+Using Macports: sudo port install flint, gmp, mpfr, libmpc
+```
+
+on linux:
+
+```
+sudo apt-get update
+sudo apt-get install libflint-dev
+sudo apt-get install libgmp-dev
+sudo apt-get install libmpfr-dev
+sudo apt install libmpc-dev
+```
+
+
+
 ```
 cd dir
 unzip eigen-master.zip -d eigen
