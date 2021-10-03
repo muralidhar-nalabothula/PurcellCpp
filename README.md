@@ -23,12 +23,21 @@ The perfomance of the code heavly depends on how well Symengine is build.
 
 ## Installation
 
+Incase if the above libraries are not present,
+
 For mac:
 
 ```
-Using homebrew: brew install flint, gmp, mpfr, libmpc
-Using Macports: sudo port install flint, gmp, mpfr, libmpc
+Using homebrew: brew install flint, gmp, mpfr, libmpc, gperftools
+Using Macports: sudo port install flint, gmp, mpfr, libmpc, gperftools, 
 ```
+for macports:
+/path/to/lib is generally "/opt/local/lib"
+/path/to/include is generally "/opt/local/include"
+
+for linux:
+/path/to/lib is generally /opt/local/lib
+/path/to/include is generally /opt/local/include
 
 on linux:
 
@@ -38,14 +47,18 @@ sudo apt-get install libflint-dev
 sudo apt-get install libgmp-dev
 sudo apt-get install libmpfr-dev
 sudo apt install libmpc-dev
+sudo apt install google-perftools
 ```
 
 
 
 ```
+export PATH="/path/to/lib:$PATH"
+export PATH="/path/to/include:$PATH"
 cd dir
+unzip 
 unzip eigen-master.zip -d eigen
-g++ -std=c++11 -O3 -I/path/to/include/dirs -L/path/to/lib/ -lgmp -lflint -lmpfr -lmpc -lgomp -ltcmalloc purcell.cpp -o purcell.x
+g++ -O3 -std=c++11 -lgmp -lflint -lmpfr -lmpc -ltcmalloc -I./include -L./lib -lsymengine -march=native -fPIC -shared purcell.cpp -o libpurcell.so
 ```
 
 ## Usage
