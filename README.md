@@ -82,7 +82,7 @@ To use it, you must include the header "purcell.h" and link the library "libpurc
 
 where sigma is optical conductivity tensor(units Siemens) at the interface.
 
- Note that the order of the elements is very importrant. The top most elements (closer to dipole ) are arranged to right and bottom elements (far from dipole) are arranged at left.
+ Note that the order of the elements is very importrant. The top most elements (closer to dipole ) are arranged to right and bottom elements (far from dipole) are arranged towards left.
 
 For Example, ff you have the following system: dipole ---> dielectric ---->2D material (with 2D surface optical conductivity) ---> Substrate, then you system is 
 
