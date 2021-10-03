@@ -22,18 +22,19 @@ The perfomance of the code heavly depends on how well Symengine is build.
 
 Incase if the above libraries are not present,
 
-For mac:
+**Mac:**
 
 ```
 Using homebrew: brew install flint, gmp, mpfr, libmpc, gperftools
 Using Macports: sudo port install flint, gmp, mpfr, libmpc, gperftools, 
 ```
 for macports:
+
 /path/to/lib is generally "/opt/local/lib"
 
 /path/to/include is generally "/opt/local/include"
 
-on linux:
+**Linux:**
 
 ```
 sudo apt-get update
