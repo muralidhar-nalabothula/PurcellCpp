@@ -7,17 +7,14 @@ PurcellCpp is a C++ code to compute both radiative and non radiative decays rate
 ## Mandatory Requirments
 
 1) A C++ 11 Compiler
-2) Flint                (Required for compiling Symengine)
-3) Symengine            (Compile with flint integer class for performance)
-5) Eigen 3              (Required for finding roots in the code. Already included. Downloaded from https://gitlab.com/libeigen/eigen )
-6) GMP                  (Required for compiling Symengine)
-8) MPFR                 (Required for compiling Symengine)
-9) MPC                  (Required for compiling Symengine)
+2) Flint                
+3) Symengine           
+5) Eigen 3              (Already included. Downloaded from https://gitlab.com/libeigen/eigen )
+6) GMP                  
+8) MPFR                 
+9) MPC                  
 10) Quadpack++          (Already included. Downloaded from https://github.com/drjerry/quadpackpp )
-## Optional Requirments
-
-1) OpenMP
-2) TCMALLOC 
+11) TCMALLOC 
 
 The perfomance of the code heavly depends on how well Symengine is build.
 
@@ -75,7 +72,7 @@ The function "Purcell" computes the total, radiative and non-radiative decay (an
 
 To use it, you must include the header "purcell.h" and link the library "libpurcell.so"
 
-******** Setting up the system: *********
+**Setting up the system:**
 
 "System" is a datatype which stores the system configuration. It accepts two kinds of elements:
 1) "Dielectric_slab" . Dielectric slab takes the following inputs in same order: (dielectric constant, thinkness of dielectric in (meter-1))
@@ -91,7 +88,7 @@ For Example, ff you have the following system: dipole ---> dielectric ---->2D ma
 
 To understand more about setting up the system, refer: https://iopscience.iop.org/article/10.1088/0953-8984/28/37/375802 
 
-******** Using Purcell function *********
+**Using Purcell function**
 
 Function Purcell takes the inputs in the following order:
 
