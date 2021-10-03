@@ -30,6 +30,7 @@ Using Macports: sudo port install flint, gmp, mpfr, libmpc, gperftools,
 ```
 for macports:
 /path/to/lib is generally "/opt/local/lib"
+
 /path/to/include is generally "/opt/local/include"
 
 on linux:
