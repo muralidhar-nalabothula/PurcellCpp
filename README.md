@@ -81,9 +81,9 @@ To use it, you must include the header "purcell.h" and link the library "libpurc
 1) "Dielectric_slab" . Dielectric slab takes the following inputs in same order: (dielectric constant, thinkness of dielectric in (meter-1))
 2) "Interface" . Interface takes the following input: (dielectric constant of incoming medium, dielectric constant of outgoing medium, sigma_xx, sigma_xy, sigma_yx, sigma_yy)
 
-where sigma is optical conductuvy tensor(units Siemens) at the interface.
+where sigma is optical conductivity tensor(units Siemens) at the interface.
 
- Note that the order of the elements is very importrant. The top most elements (closer to dipole ) are arranged to left and bottom elements (far from dipole) are arranged at left.
+ Note that the order of the elements is very importrant. The top most elements (closer to dipole ) are arranged to right and bottom elements (far from dipole) are arranged at left.
 
 For Example, ff you have the following system: dipole ---> dielectric ---->2D material (with 2D surface optical conductivity) ---> Substrate, then you system is 
 
@@ -95,11 +95,11 @@ To understand more about setting up the system, refer: https://iopscience.iop.or
 
 Function Purcell takes the inputs in the following order:
 
-(wavevector in (meter^{-1}); System configuation; distance of dipole from the top interface; compontent of the Greens tensor given in string {xx, xy, xz, ....}
+(wavevector (in meter^{-1}); System configuation; distance of dipole from the top interface; compontent of the Greens tensor given in string {xx, xy, xz, ....}
 
 Check the main.cpp for an example on how to calculate
 
-Note: All the units are must be given is SI units. 
+Note: All the units must be given is SI units. 
 
 ## Authors and acknowledgment
 Please consider citing the following paper if you use the code
