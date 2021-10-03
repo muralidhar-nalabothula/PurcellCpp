@@ -35,10 +35,6 @@ for macports:
 /path/to/lib is generally "/opt/local/lib"
 /path/to/include is generally "/opt/local/include"
 
-for linux:
-/path/to/lib is generally /opt/local/lib
-/path/to/include is generally /opt/local/include
-
 on linux:
 
 ```
@@ -55,12 +51,24 @@ sudo apt install google-perftools
 ```
 export PATH="/path/to/lib:$PATH"
 export PATH="/path/to/include:$PATH"
-cd dir
-unzip 
+cd directory
+unzip symengine-0.8.1.zip -d symengine
 unzip eigen-master.zip -d eigen
-g++ -O3 -std=c++11 -lgmp -lflint -lmpfr -lmpc -ltcmalloc -I./include -L./lib -lsymengine -march=native -fPIC -shared purcell.cpp -o libpurcell.so
-```
+cd symengine/symengine-0.8.1/
+mkdir build && cd build
+cmake DWITH_MPFR=off -DWITH_MPC=on -DINTEGER_CLASS=flint CXXFLAGS="-O3 -std=c++11" -DWITH_FLINT:BOOL=on -DCMAKE_INSTALL_PREFIX:PATH="./../../../" -DWITH_COTIRE=off -DWITH_SYMENGINE_THREAD_SAFE=no  ..
+make
+make install
+g++ -O3 -std=c++11 -I/path/to/include -L/path/to/lib -lgmp -lflint -lmpfr -lmpc -ltcmalloc -I./include -L./lib -lsymengine -fPIC -shared purcell.cpp -o libpurcell.so
 
+
+```
+Now the linked libpurcell.so can be linked:
+for example: to compile the main program: 
+```
+g++ -O3 main.cpp -L. -lpurcell -o purcell.exe
+./purcell.exe
+```
 ## Usage
 
 The function "Purcell" computes the total, radiative and non-radiative decay (and their numerical integration errors).
