@@ -63,7 +63,7 @@ g++ -O3 -std=c++11 -I/path/to/include -L/path/to/lib -lgmp -lflint -lmpfr -lmpc 
 
 
 ```
-Now the linked libpurcell.so can be linked:
+Now include the "purcell.h" in your code and link the compiled libpurcell.so library:
 for example: to compile the main program: 
 ```
 g++ -O3 main.cpp -L. -lpurcell -o purcell.exe
