@@ -71,11 +71,11 @@ int cart_sym_2_num(char cart_string){ /* This Function converts string to number
 }
 
 
-/* Output Structure to store interface function of the system
-It contains transface matrix and propagation angle*/
+/* Output Structure to store the interface function of the system
+It contains the transfer matrix and the propagation angle*/
 struct M_struct {SymEngine::DenseMatrix tranfser_mat; std::complex<double> prop_angle;}; 
 
-/* Function to compute Transfer matrix for a inteferface*/
+/* Function to compute the transfer matrix for a interface*/
 M_struct M_sub(std::complex<double> vl, struct_elements *interface, SymEngine::DenseMatrix &R_mat){ 
     /* Unrotated surface conductivity at the interface*/
     SymEngine::DenseMatrix sig_p = SymEngine::DenseMatrix(2, 2, 
@@ -88,12 +88,12 @@ M_struct M_sub(std::complex<double> vl, struct_elements *interface, SymEngine::D
     R_mat.transpose(R_mat_T); 
     mul_dense_dense(R_mat_T,sig_pt_temp , sig_pt); // sig_pt = R^T * sigma_p *R 
 
-    /* sig_pt is rotated conductivity tensor*/
+    /* sig_pt is the rotated conductivity tensor*/
     auto sxx = sig_pt.get(0,0);
     auto sxy = sig_pt.get(0,1);
     auto syx = sig_pt.get(1,0);
     auto syy = sig_pt.get(1,1);
-    // nl is refractive index (R.I) of incoming medium and nr is R.I of outgoing medium
+    // nl is the refractive index (R.I) of incoming medium and nr is R.I of outgoing medium
     std::complex<double> nl = interface->nl;
     std::complex<double> nr = interface->nr;
     std::complex<double> c_vl = std::cos(std::complex<double>(vl));
@@ -102,7 +102,7 @@ M_struct M_sub(std::complex<double> vl, struct_elements *interface, SymEngine::D
     std::complex<double> c_vr = std::cos(std::complex<double>(vr));
     std::complex<double> s_vr = std::sin(std::complex<double>(vr));
 
-    // vl is incoming angle and vr is outgoing angle at interface
+    // vl is the incoming angle and vr is the outgoing angle at interface
     auto f_p = SymEngine::complex_double(c_one + ((nl*c_vl)*c_one/(nr*c_vr)));
     auto f_n = SymEngine::complex_double(c_one - ((nl*c_vl)*c_one/(nr*c_vr)));
     auto g_p = SymEngine::complex_double((nl*c_one/nr) + (c_vl*c_one/c_vr));
@@ -122,7 +122,7 @@ M_struct M_sub(std::complex<double> vl, struct_elements *interface, SymEngine::D
     }
 /* Function for computing transfer matrix matrix for dielectric */
 SymEngine::DenseMatrix M_di(std::complex<double> v_d, double k0, struct_elements *dielectric_ )
-{   // vd is propagation angle, k0 is wave vector
+{   // vd is the propagation angle, k0 is the wave vector
     double d = dielectric_->thickness ; 
     std::complex<double> n_d  = dielectric_->nd;
     std::complex<double> k_dielc = k0*n_d;
@@ -139,7 +139,7 @@ SymEngine::DenseMatrix M_di(std::complex<double> v_d, double k0, struct_elements
     }
 
 /* Integrand of Green's function */
-double green_integrand (double kp, /* kp is normalized to k0 !!*/ \
+double green_integrand (double kp, /* kp is the normalized to k0 !!*/ \
 double k0, /* Wave vector*/
 std::vector<struct_elements> elements, /* System configuation*/
 double z0 , /* dipole distance*/
@@ -167,7 +167,7 @@ std::string dir /* Direction of the dipole matrix*/
 
     std::complex<double> vl = std::acos(kz); //incoming angle
 
-    SymEngine::DenseMatrix M_tot =  sym_I_mat_4; // Starting the tranfer matrx with a indentity
+    SymEngine::DenseMatrix M_tot =  sym_I_mat_4; // Starting the transfer matrx with a identity matrix
 
     // Computing the total transfer matrix of the system from the user input
     for (auto i : elements)
@@ -198,7 +198,7 @@ std::string dir /* Direction of the dipole matrix*/
 
     SymEngine::RCP<const SymEngine::Basic> det_M22 = mul(M_22.det(), sym_minus_one); // det of M22
 
-    det_M22 = expand(mul(z,det_M22)); //det(M22) * z , this z is multiplied, as we do transformation of variable cos(phi) = z + 1/z
+    det_M22 = expand(mul(z,det_M22)); //det(M22) * z , this z is multiplied, as we do transformation of variable exp(I*phi) = z 
 
     M22_inv.mul_matrix(M_21, g ) ; // M22^-1 * M21
 
@@ -239,7 +239,7 @@ std::string dir /* Direction of the dipole matrix*/
     std::vector<signed long int> det_terms;
     std::vector<std::complex<double>> det_coeffs;
     det_M22 = mul(sym_zero,z);
-    for(auto const& imap: det_M22_dict){ /* Filtering out co-eff >1E-8 and set others to 0. Done this dude to machine prescision */
+    for(auto const& imap: det_M22_dict){ /* Filtering out co-eff >1E-8 and set others to 0. This is done due to machine prescision */
         std::complex<double> coeffs_temp = SymEngine::rcp_static_cast<const SymEngine::ComplexDouble>(add(imap.second,sym_zero))->i ;
         if (std::abs(coeffs_temp)>std::pow(10,-8)){
             det_terms.push_back((SymEngine::rcp_static_cast<const SymEngine::Integer>(SymEngine::rcp_static_cast<const SymEngine::Pow>(pow(imap.first,SymEngine::integer(2)))->get_exp())->as_int())/2);
@@ -253,13 +253,13 @@ std::string dir /* Direction of the dipole matrix*/
     for (int i=0; i<det_terms.size(); ++i){
         poly_coeff[det_terms[i]-*minmax.first] = det_coeffs[i]; // storing all the elements in the vector
     }
-    Eigen::Map<Eigen::VectorXcd> coeff(poly_coeff.data(),poly_coeff.size()); //mapping to eigen vector for finding roots
-    Eigen::PolynomialSolver<std::complex<double>, Eigen::Dynamic> solver; // inilization of solver
-    solver.compute(coeff); // solving roots
-    const Eigen::PolynomialSolver<std::complex<double>, Eigen::Dynamic>::RootsType &roots = solver.roots(); // got the roots
-    auto integrand = mul(gg_num,pow(det_M22,sym_minus_one)); //Numerical evaulation og G(x,y) integrand 
-    SymEngine::RCP<const SymEngine::Basic> der_det_M22 = diff(det_M22,z); // computing the derivative for finding thre residue.
-    // do a dummy series expansion to find number of terms required
+    Eigen::Map<Eigen::VectorXcd> coeff(poly_coeff.data(),poly_coeff.size()); //mapping to eigen vector for finding the roots of the polynomial
+    Eigen::PolynomialSolver<std::complex<double>, Eigen::Dynamic> solver; // initialization of solver
+    solver.compute(coeff); // solving for roots
+    const Eigen::PolynomialSolver<std::complex<double>, Eigen::Dynamic>::RootsType &roots = solver.roots(); // get the roots
+    auto integrand = mul(gg_num,pow(det_M22,sym_minus_one)); //Numerical evaulation of G(x,y) integrand 
+    SymEngine::RCP<const SymEngine::Basic> der_det_M22 = diff(det_M22,z); // computing the derivative for finding the residue.
+    // do a series expansion to find number of terms required
     SymEngine::RCP<const SymEngine::SeriesCoeffInterface> residue_series = SymEngine::series(mul(z,integrand), z,64); // series expanded to 64 terms
     auto unordered_dict = residue_series->as_dict(); // get coeff
     std::map<int, SymEngine::RCP<const SymEngine::Basic>> ordered_dict(unordered_dict.begin(), unordered_dict.end()); // order the coedd according to degree
@@ -292,12 +292,12 @@ std::string dir /* Direction of the dipole matrix*/
 }
 
 
-struct G_integrand_pars { double k0 ; // for performing integrals 
+struct G_integrand_pars { double k0 ; // for performing the integrals 
     std::vector<struct_elements> elements;
     double z0 ;
     std::string dir; };
 
-double integrand_rad (double kp, void * G_params) // for performing radiative integrals 
+double integrand_rad (double kp, void * G_params) // for performing the radiative integrals 
   {
     struct G_integrand_pars * params = (struct G_integrand_pars *)G_params;
     double k0 = params->k0;
@@ -308,7 +308,7 @@ double integrand_rad (double kp, void * G_params) // for performing radiative in
     return  green_integrand(kp,k0, elements, z0,dir);
   }
 
-double integrand_non_rad (double t, void * G_params) // for performing non radiative integrals 
+double integrand_non_rad (double t, void * G_params) // for performing the non-radiative integrals 
   { double kp = 1.0f/t;
     struct G_integrand_pars * params = (struct G_integrand_pars *)G_params;
     double k0 = params->k0;
@@ -319,7 +319,7 @@ double integrand_non_rad (double t, void * G_params) // for performing non radia
     return  kp*kp*green_integrand(kp,k0, elements, z0,dir);
   }
 
-Decay_rates Purcell(double k0, /* Computing the rad and non rad decay rates by perfoming the kp integral*/
+Decay_rates Purcell(double k0, /* Computing the rad and non-rad decay rates by perfoming the kp integral*/
                     std::vector<struct_elements> elements,
                     double z0 , 
                     std::string dir, 
