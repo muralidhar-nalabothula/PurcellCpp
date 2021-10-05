@@ -1,4 +1,4 @@
-// This code is written by Muralidhar Nalabothula 
+// This code was written by Muralidhar Nalabothula 
 // Please conside citing https://journals.aps.org/prb/abstract/10.1103/PhysRevB.102.045416 if you use the code.
 // contact me in case of bug reports : muralidharrsvm7@gmail.com 
 #include "purcell.h"
