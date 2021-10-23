@@ -266,9 +266,7 @@ std::string dir /* Direction of the dipole matrix*/
             std::cout<<"Warning, some roots are missing"<<std::endl;
         }
     }
-    else {
-        
-    }
+    
     auto integrand = mul(gg_num,pow(det_M22,sym_minus_one)); //Numerical evaulation of G(x,y) integrand 
     SymEngine::RCP<const SymEngine::Basic> der_det_M22 = diff(det_M22,z); // computing the derivative for finding the residue.
     // do a series expansion to find number of terms required
