@@ -234,7 +234,8 @@ std::string dir /* Direction of the dipole matrix*/
     Mps.add_matrix(G,G);
     Mpp.add_matrix(G,G);
 
-    auto det_M22_dict = SymEngine::rcp_static_cast<const SymEngine::Add>(det_M22) ->get_dict(); // getting coeff of the det polynomial
+    //std::cout<<*SymEngine::rcp_static_cast<const SymEngine::Add>(add(det_M22, SymEngine::complex_double(c_one*pow(10,-100)) ))<<std::endl;
+    auto det_M22_dict = SymEngine::rcp_static_cast<const SymEngine::Add>(add(det_M22, SymEngine::complex_double(c_one*1e-50) )) ->get_dict(); // getting coeff of the det polynomial
     SymEngine::RCP<const SymEngine::Basic> gg_num = G.get(cart_sym_2_num(dir[0]),cart_sym_2_num(dir[1])); // get the G(x,y) element
     std::vector<signed long int> det_terms;
     std::vector<std::complex<double>> det_coeffs;
@@ -247,6 +248,7 @@ std::string dir /* Direction of the dipole matrix*/
             det_M22 = add(det_M22,mul(imap.second,imap.first));
         }
     }
+    //std::cout<<*det_M22<<std::endl;
     auto minmax = std::minmax_element(det_terms.begin(), det_terms.end()); // finding min and max degrees of the det polynomial
     std::vector<std::complex<double>> poly_coeff(*minmax.second-*minmax.first+1, c_zero);
     // OPENMP?
@@ -254,9 +256,19 @@ std::string dir /* Direction of the dipole matrix*/
         poly_coeff[det_terms[i]-*minmax.first] = det_coeffs[i]; // storing all the elements in the vector
     }
     Eigen::Map<Eigen::VectorXcd> coeff(poly_coeff.data(),poly_coeff.size()); //mapping to eigen vector for finding the roots of the polynomial
-    Eigen::PolynomialSolver<std::complex<double>, Eigen::Dynamic> solver; // initialization of solver
-    solver.compute(coeff); // solving for roots
-    const Eigen::PolynomialSolver<std::complex<double>, Eigen::Dynamic>::RootsType &roots = solver.roots(); // get the roots
+    std::vector<std::complex<double>> roots;
+    if (poly_coeff.size() > 1){
+        Eigen::PolynomialSolver<std::complex<double>, Eigen::Dynamic> solver; // initialization of solver
+        solver.compute(coeff); // solving for roots
+        const Eigen::PolynomialSolver<std::complex<double>, Eigen::Dynamic>::RootsType &root = solver.roots(); // get the roots
+        roots = std::vector<std::complex<double>>(root.data(), root.data() + root.size());
+        if (root.size() != roots.size()){
+            std::cout<<"Warning, some roots are missing"<<std::endl;
+        }
+    }
+    else {
+        
+    }
     auto integrand = mul(gg_num,pow(det_M22,sym_minus_one)); //Numerical evaulation of G(x,y) integrand 
     SymEngine::RCP<const SymEngine::Basic> der_det_M22 = diff(det_M22,z); // computing the derivative for finding the residue.
     // do a series expansion to find number of terms required
