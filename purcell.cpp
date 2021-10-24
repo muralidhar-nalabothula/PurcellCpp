@@ -270,17 +270,17 @@ std::string dir /* Direction of the dipole matrix*/
     auto integrand = mul(gg_num,pow(det_M22,sym_minus_one)); //Numerical evaulation of G(x,y) integrand 
     SymEngine::RCP<const SymEngine::Basic> der_det_M22 = diff(det_M22,z); // computing the derivative for finding the residue.
     // do a series expansion to find number of terms required
-    SymEngine::RCP<const SymEngine::SeriesCoeffInterface> residue_series = SymEngine::series(mul(z,integrand), z,64); // series expanded to 64 terms
+    SymEngine::RCP<const SymEngine::SeriesCoeffInterface> residue_series = SymEngine::series(integrand, z,64); // series expanded to 64 terms
     auto unordered_dict = residue_series->as_dict(); // get coeff
     std::map<int, SymEngine::RCP<const SymEngine::Basic>> ordered_dict(unordered_dict.begin(), unordered_dict.end()); // order the coedd according to degree
     int series_order = ordered_dict.rbegin()->first; // sorting 
-    if (series_order<0){ 
-        residue_series = SymEngine::series(mul(z,integrand), z,200);
+    if (series_order< -1){ 
+        residue_series = SymEngine::series(integrand, z,200);
         unordered_dict = residue_series->as_dict();
         std::map<int, SymEngine::RCP<const SymEngine::Basic>> ordered_dict(unordered_dict.begin(), unordered_dict.end());
         series_order = ordered_dict.rbegin()->first;
     }
-    SymEngine::RCP<const SymEngine::Basic> residue0 =  residue_series ->get_coeff(0);  // not get_coeff(-1) because we multiplied series with z and take the constant
+    SymEngine::RCP<const SymEngine::Basic> residue0 =  residue_series ->get_coeff(-1);  
     std::complex<double> residue = SymEngine::rcp_static_cast<const SymEngine::ComplexDouble>(add(residue0,sym_zero))->i; // z= 0 is a always pole
     for (auto i : roots){
          if (std::abs(i) < 1 && std::abs(i) > std::pow(10,-precision) ){
