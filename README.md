@@ -48,7 +48,7 @@ sudo apt install google-perftools
 
 
 ```
-g++ -O3 -std=c++11 -I/path/to/include -L/path/to/lib -lgmp -lflint -lmpfr -lmpc -ltcmalloc -I./include -L./lib -lsymengine -fPIC -shared purcell.cpp -o libpurcell.so
+g++ -O3 -std=c++11 -I/path/to/include -L/path/to/lib -lgmp -lflint -lmpfr -lmpc -ltcmalloc -lsymengine -fPIC -shared purcell.cpp -o libpurcell.so
 
 
 ```
