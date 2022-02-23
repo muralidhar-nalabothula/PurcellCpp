@@ -9,11 +9,11 @@ PurcellCpp is a C++ code to compute both radiative and non radiative decays rate
 1) A C++ 11 Compiler
 2) Flint                
 3) Symengine           
-5) Eigen 3              (Already included. Downloaded from https://gitlab.com/libeigen/eigen )
+5) Eigen 3              ( https://gitlab.com/libeigen/eigen )
 6) GMP                  
 8) MPFR                 
 9) MPC                  
-10) Quadpack++          (Already included. Downloaded from https://github.com/drjerry/quadpackpp )
+10) Quadpack++          (Download from https://github.com/drjerry/quadpackpp )
 11) TCMALLOC 
 
 The perfomance of the code heavly depends on how well Symengine is build.
