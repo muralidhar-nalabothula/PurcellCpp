@@ -48,16 +48,6 @@ sudo apt install google-perftools
 
 
 ```
-export PATH="/path/to/lib:$PATH"
-export PATH="/path/to/include:$PATH"
-cd directory
-unzip symengine-0.8.1.zip -d symengine
-unzip eigen-master.zip -d eigen
-cd symengine/symengine-0.8.1/
-mkdir build && cd build
-cmake DWITH_MPFR=off -DWITH_MPC=on -DINTEGER_CLASS=flint CXXFLAGS="-O3 -std=c++11" -DWITH_FLINT:BOOL=on -DCMAKE_INSTALL_PREFIX:PATH="./../../../" -DWITH_COTIRE=off -DWITH_SYMENGINE_THREAD_SAFE=no  ..
-make
-make install
 g++ -O3 -std=c++11 -I/path/to/include -L/path/to/lib -lgmp -lflint -lmpfr -lmpc -ltcmalloc -I./include -L./lib -lsymengine -fPIC -shared purcell.cpp -o libpurcell.so
 
 
